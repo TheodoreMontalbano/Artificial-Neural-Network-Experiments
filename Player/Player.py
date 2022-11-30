@@ -9,5 +9,4 @@ class Player(IPlayer.IPlayer):
 
     # queries player for a move based on state
     def makeMove(self, state):
-        print("Please input the move you would like to make")
-        return int(input("Please input the move you would like to make"))
+        return int(input("Please input the move you would like to make")) - 1

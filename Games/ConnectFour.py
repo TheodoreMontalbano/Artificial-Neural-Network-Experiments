@@ -22,28 +22,33 @@ class ConnectFour(IArrayGame.IArrayGame):
         self.currPlayer = 0
         self.currEmpty = [0 for i in range(7)]
         self.showGame = showGame
-        self.status = GameState.NotOver
+        self.status = GameState.GameState.NotOver
 
     # The current player makes a move
     def makeMove(self, move):
-        # TODO What if player makes an illegal move
-        if (0 > move > 6) or self.currEmpty[move] == 6:
+        if 0 > move or move > 6 or self.currEmpty[move] == 6:
             if self.players[self.currPlayer].isRobot():
                 return InvalidMoveCases.InvalidMoveCases.AIInvalid
             else:
                 return InvalidMoveCases.InvalidMoveCases.PlayerInvalid
-        self.state[self.currEmpty[move]][move] = self.currPlayer + 1
+        self.state[move][self.currEmpty[move]] = self.currPlayer + 1
+        self.currEmpty[move] = self.currEmpty[move] + 1
         return InvalidMoveCases.InvalidMoveCases.ValidMove
 
     # Has the players play a simulation of the game
     def playGame(self):
+        move = -1
         isOver = GameState.GameState.NotOver
         moveValidity = InvalidMoveCases.InvalidMoveCases.ValidMove
         while isOver == GameState.GameState.NotOver:
             # Make a move
-            moveValidity = self.makeMove(self.players[self.currPlayer].makeMove(self.state))
+            move = self.players[self.currPlayer].makeMove(self.state)
+            moveValidity = self.makeMove(move)
             while moveValidity == InvalidMoveCases.InvalidMoveCases.PlayerInvalid:
-                print("Invalid move: please choose a number between 1 and 7")
+                if 0 > move or move > 6:
+                    print("Invalid move: please choose a number between 1 and 7")
+                else:
+                    print("Invalid move: Please choose a column that is not full")
                 moveValidity = self.makeMove(self.players[self.currPlayer].makeMove(self.state))
             # If the AI makes an invalid move it counts as a loss
             if moveValidity == InvalidMoveCases.InvalidMoveCases.AIInvalid:
@@ -55,13 +60,11 @@ class ConnectFour(IArrayGame.IArrayGame):
                 return self.currPlayer
             elif isOver == GameState.GameState.Tie:
                 return -1
-            if self.showGame:
-                self.show()
             self.currPlayer = (self.currPlayer + 1) % 2
 
     # Checks if the game is over
     def gameState(self):
-
+        # TODO FIX out of bounds errors
         if self._checkHorizontal() or self._checkVertical() or self._checkDiagonal():
             return GameState.GameState.Win
 
@@ -83,7 +86,7 @@ class ConnectFour(IArrayGame.IArrayGame):
         for i in range(6):
             count = 0
             for j in range(6):
-                if self.state[i][j] == self.state[i][j + 1] and self.state[i][j] != 0:
+                if self.state[j][i] == self.state[j + 1][i] and self.state[j][i] != 0:
                     count = count + 1
                     if count == 3:
                         isWin = True
@@ -95,10 +98,10 @@ class ConnectFour(IArrayGame.IArrayGame):
     def _checkVertical(self):
         isWin = False
         count = 0
-        for j in range(7):
+        for i in range(7):
             count = 0
-            for i in range(5):
-                if self.state[i][j] == self.state[i + 1][j] and self.state[i][j] != 0:
+            for j in range(5):
+                if self.state[i][j] == self.state[i][j + 1] and self.state[i][j] != 0:
                     count = count + 1
                     if count == 3:
                         isWin = True
@@ -132,6 +135,17 @@ class ConnectFour(IArrayGame.IArrayGame):
                     count = 0
         return isWin
 
-    # Outputs the gamestate to the viewer
+    # Outputs the game's state to the viewer
     def show(self):
-        pass
+        for i in range(1, 7):
+            for j in range(7):
+                print('{:3}'.format(translate(self.state[j][6 - i])), end='')
+            print()
+
+
+def translate(x):
+    if x == 1:
+        return 'R'
+    if x == 2:
+        return 'B'
+    return '_'
