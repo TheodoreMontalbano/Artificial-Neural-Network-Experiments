@@ -64,7 +64,6 @@ class ConnectFour(IArrayGame.IArrayGame):
 
     # Checks if the game is over
     def gameState(self):
-        # TODO FIX out of bounds errors
         if self._checkHorizontal() or self._checkVertical() or self._checkDiagonal():
             return GameState.GameState.Win
 
@@ -114,20 +113,42 @@ class ConnectFour(IArrayGame.IArrayGame):
     def _checkDiagonal(self):
         isWin = False
         count = 0
-        for i in range(1, 13):
+        # Upper 1/1 diagonal
+        for i in range(4):
             count = 0
-            for j in range(min(13 - i, i)):
-                if self.state[j + i][j - i] == self.state[j + i + 1][j - i + 1] and self.state[j + i][j - i] != 0:
+            for j in range(i, 5):
+                if self.state[j-i][j] == self.state[j + 1 - i][j + 1] and self.state[j - i][j] != 0:
                     count = count + 1
                     if count == 3:
                         isWin = True
                 else:
                     count = 0
-        count = 0
-        for i in range(1, 13):
+        # Lower 1/1 diagonal
+        for i in range(1, 4):
             count = 0
-            for j in range(min(13 - i, i)):
-                if self.state[i + j][i - j] == self.state[j + i + 1][j - i - 1] and self.state[j + i][j - i] != 0:
+            for j in range(i, 6):
+                if self.state[j][j - i] == self.state[j + 1][j - i + 1] and self.state[j][j - i] != 0:
+                    count = count + 1
+                    if count == 3:
+                        isWin = True
+                else:
+                    count = 0
+        # Upper -1/1 diagonal
+        for i in range(4):
+            count = 0
+            for j in range(i, 5):
+                if self.state[6 - (j - i)][j] == self.state[6 - (j + 1 - i)][(j + 1)] \
+                        and self.state[6 - (j - i)][j] != 0:
+                    count = count + 1
+                    if count == 3:
+                        isWin = True
+                else:
+                    count = 0
+        # Lower -1/1 diagonal
+        for i in range(1, 4):
+            count = 0
+            for j in range(i, 6):
+                if self.state[6 - j][(j - i)] == self.state[6 - (j + 1)][j - i + 1] and self.state[6 - j][j - i] != 0:
                     count = count + 1
                     if count == 3:
                         isWin = True
