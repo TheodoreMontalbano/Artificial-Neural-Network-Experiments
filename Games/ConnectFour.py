@@ -1,28 +1,29 @@
 from GameInterfaces import IArrayGame
 from copy import deepcopy
 from Enums import GameState, InvalidMoveCases
+from NeuralNetworks import ConnectFourNN
 
 
 class ConnectFour(IArrayGame.IArrayGame):
     # Current state of the game
     state = None
+    stateVector = None
     players = None
     currPlayer = None
     currEmpty = None
     showGame = None
-    status = None
 
-    def __init__(self, playerOne, playerTwo, showGame):
+    def __init__(self, playerOne, playerTwo, showGame=False):
         # 6 row, 7 col
         temp = [0 for i in range(6)]
         self.state = [deepcopy(temp) for i in range(7)]
+        self.stateVector = [0 for i in range(42)]
         self.players = []
         self.players.append(playerOne)
         self.players.append(playerTwo)
         self.currPlayer = 0
         self.currEmpty = [0 for i in range(7)]
         self.showGame = showGame
-        self.status = GameState.GameState.NotOver
 
     # The current player makes a move
     def makeMove(self, move):
@@ -32,6 +33,7 @@ class ConnectFour(IArrayGame.IArrayGame):
             else:
                 return InvalidMoveCases.InvalidMoveCases.PlayerInvalid
         self.state[move][self.currEmpty[move]] = self.currPlayer + 1
+        self.stateVector[move + self.currEmpty[move] * 7]
         self.currEmpty[move] = self.currEmpty[move] + 1
         return InvalidMoveCases.InvalidMoveCases.ValidMove
 
@@ -42,7 +44,7 @@ class ConnectFour(IArrayGame.IArrayGame):
         moveValidity = InvalidMoveCases.InvalidMoveCases.ValidMove
         while isOver == GameState.GameState.NotOver:
             # Make a move
-            move = self.players[self.currPlayer].makeMove(self.state)
+            move = self.players[self.currPlayer].makeMove(self.stateVector)
             moveValidity = self.makeMove(move)
             while moveValidity == InvalidMoveCases.InvalidMoveCases.PlayerInvalid:
                 if 0 > move or move > 6:
@@ -109,7 +111,6 @@ class ConnectFour(IArrayGame.IArrayGame):
         return isWin
 
     # Checks the diagonals of the board for a win
-    # TODO Check this works
     def _checkDiagonal(self):
         isWin = False
         count = 0
@@ -117,7 +118,7 @@ class ConnectFour(IArrayGame.IArrayGame):
         for i in range(4):
             count = 0
             for j in range(i, 5):
-                if self.state[j-i][j] == self.state[j + 1 - i][j + 1] and self.state[j - i][j] != 0:
+                if self.state[j - i][j] == self.state[j + 1 - i][j + 1] and self.state[j - i][j] != 0:
                     count = count + 1
                     if count == 3:
                         isWin = True
@@ -162,6 +163,16 @@ class ConnectFour(IArrayGame.IArrayGame):
             for j in range(7):
                 print('{:3}'.format(translate(self.state[j][6 - i])), end='')
             print()
+
+    # Creates a new ConnectFourNN from a NN with the correct input layer
+    @staticmethod
+    def createNewAI(Name, brain):
+        return ConnectFourNN.ConnectFourNN(Name, brain)
+
+    # Gets the input layer for a ConnectFour NN
+    @staticmethod
+    def getInputLayer():
+        return ConnectFourNN.ConnectFourNN.getInputLayer()
 
 
 def translate(x):

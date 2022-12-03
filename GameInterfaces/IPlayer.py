@@ -1,4 +1,5 @@
 class IPlayer:
+    Name = None
 
     # If this is an AI return true
     # if this is a player don't

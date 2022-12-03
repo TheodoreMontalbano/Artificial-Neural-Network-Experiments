@@ -7,7 +7,7 @@ def createLayersFromShape(shape, activationFunctions=None):
     if activationFunctions:
         layers = []
         for i in range(1, len(shape)):
-            layers.append(Layer.Layer(activationFunctions[i-1], [], shape[i], shape[i - 1]))
+            layers.append(Layer.Layer(activationFunctions[i - 1], [], shape[i], shape[i - 1]))
     else:
         layers = []
         for i in range(1, len(shape)):
@@ -52,7 +52,11 @@ class NeuralNetwork:
             self.shape.append(inputLayer)
             return self
 
-    #TODO Adds a Layer to the Neural Network
-    def addLayer(self, activationFunction):
-        return self.shape
+    def processVector(self, vector):
+        for i in self.layers:
+            vector = i.process(vector)
+        return vector
 
+    def addLayer(self, activationFunction, nodeNumber):
+        self.layers.append(Layer.Layer(activationFunction), [], nodeNumber, self.shape[len(self.shape) - 1])
+        self.shape.append(nodeNumber)

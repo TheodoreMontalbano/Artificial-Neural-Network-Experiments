@@ -2,6 +2,11 @@ from GameInterfaces import IPlayer
 
 
 class Player(IPlayer.IPlayer):
+    Name = None
+
+    def __init__(self, Name):
+        self.Name = Name
+
     # If this is an AI return true
     # if this is a player don't
     def isRobot(self):

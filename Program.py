@@ -3,8 +3,8 @@ from Player import Player
 
 
 def main():
-    playerOne = Player.Player()
-    playerTwo = Player.Player()
+    playerOne = Player.Player(input("What is Player One's name?"))
+    playerTwo = Player.Player(input("What is Player Two's name?"))
     game = ConnectFour.ConnectFour(playerOne, playerTwo, True)
     result = game.playGame() + 1
     print("Player " + str(result) + " Wins!")
