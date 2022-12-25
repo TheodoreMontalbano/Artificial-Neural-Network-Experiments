@@ -5,15 +5,15 @@ from Math import MathFunctions
 
 class Neuron:
     # Lists of weights for incoming edges - np array
-    _edgeWeights = None
+    edgeWeights = None
     # The activation function of the Neuron
-    _activationFunction = None
+    activationFunction = None
 
     # activationFunction: The activation function to use
     # edgeNumber: number of edges you want
     # edgeWeights: weights of all edges input at np array
     # bound: bound of how many possible edges randomly generated you want
-    def __init__(self, activationFunction, edgeNumber, edgeWeights, bound):
+    def __init__(self, activationFunction, edgeNumber, edgeWeights=[], bound=5):
         if activationFunction:
             self.activationFunction = activationFunction
         else:

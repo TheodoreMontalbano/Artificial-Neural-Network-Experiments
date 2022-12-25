@@ -1,5 +1,6 @@
 from AIBuildingBlocks import Layer
 import random
+import numpy as np
 
 
 # Creates Layers for a neural network based on a specified shape
@@ -34,6 +35,10 @@ class NeuralNetwork:
             for i in layers:
                 self.shape.append(i.size)
             return self
+        if layers and shape:
+            self.layers = layers
+            self.shape = shape
+            return self
         if shape and activationFunctions:
             self.shape = shape
             self.layers = createLayersFromShape(shape, activationFunctions)
@@ -44,8 +49,8 @@ class NeuralNetwork:
             return self
         if bound:
             self.shape = []
-            for i in range(random.randint(bound - 1) + 1):
-                self.shape.append(random.randint(bound - 1) + 1)
+            for i in range(1, random.randint(1, bound - 1) + 1):
+                self.shape.append(random.randint(1, bound - 1) + 1)
             self.layers = createLayersFromShape(self.shape)
             return self
         if inputLayer:
@@ -57,6 +62,24 @@ class NeuralNetwork:
             vector = i.process(vector)
         return vector
 
-    def addLayer(self, activationFunction, nodeNumber):
-        self.layers.append(Layer.Layer(activationFunction), [], nodeNumber, self.shape[len(self.shape) - 1])
-        self.shape.append(nodeNumber)
+    def addLayer(self, activationFunction=None, nodeNumber=1):
+        return self.addLayerAtIndex(len(self.shape), activationFunction, nodeNumber)
+
+    # Don't call with an index of 0
+    def addLayerAtIndex(self, index, activationFunction=None, nodeNumber=1):
+        if index == len(self.shape):
+            self.layers.append(Layer.Layer(activationFunction, [], nodeNumber, self.shape[len(self.shape) - 1]))
+            self.shape.append(nodeNumber)
+        else:
+            self.shape.insert(index, nodeNumber)
+            self.layers.insert(index, Layer.Layer(activationFunction, [], nodeNumber, self.shape[index - 1]))
+            # Fixing edgeweights for next shape
+            if nodeNumber >= self.shape[index - 1]:
+                for i in self.layers[index + 1].nodes:
+                    for j in range(nodeNumber - self.shape[index - 1]):
+                        i.edgeWeights.append(random.random())
+            else:
+                for i in self.layers[index + 1].nodes:
+                    for j in range(self.shape[index - 1] - nodeNumber):
+                        i.edgeWeights = np.delete(i.edgeWeights, random.randint(0, i.edgeWeights.size - 1))
+        return self

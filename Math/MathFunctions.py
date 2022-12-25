@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 
 # Returns 1 / (1 + e^(-x))
@@ -9,3 +10,39 @@ def sigmoid(x):
 # Returns a * sigmoid(x)
 def aSigmoid(x, a):
     return a * sigmoid(x)
+
+
+# selects num to select randomly with a left skew from popSize
+def selectLeftSkewRandomly(numToSelect, popSize):
+    selected = []
+    unselected = []
+    for i in range(popSize):
+        if popSize - i == numToSelect:
+            selected.append(i)
+            numToSelect = numToSelect - 1
+        else:
+            save = random.randint(0, 1)
+            if not save:
+                selected.append(i)
+                numToSelect = numToSelect - 1
+            else:
+                unselected.append(i)
+    return [selected, unselected]
+
+
+# selects num randomly with right skew from pop
+def selectRightSkewRandomly(numToSelect, popSize):
+    selected = []
+    unselected = []
+    for i in range(popSize):
+        if popSize - i == numToSelect:
+            selected.append(popSize - i - 1)
+            numToSelect = numToSelect - 1
+        else:
+            save = random.randint(0, 1)
+            if not save:
+                selected.append(popSize - i - 1)
+                numToSelect = numToSelect - 1
+            else:
+                unselected.append(popSize - i - 1)
+    return [selected, unselected]
