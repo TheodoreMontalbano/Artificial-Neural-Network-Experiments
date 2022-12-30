@@ -2,6 +2,7 @@ from GameInterfaces import IArrayGame
 from copy import deepcopy
 from Enums import GameState, InvalidMoveCases
 from NeuralNetworks import ConnectFourNN
+import math
 
 
 class ConnectFour(IArrayGame.IArrayGame):
@@ -33,7 +34,7 @@ class ConnectFour(IArrayGame.IArrayGame):
             else:
                 return InvalidMoveCases.InvalidMoveCases.PlayerInvalid
         self.state[move][self.currEmpty[move]] = self.currPlayer + 1
-        self.stateVector[move + self.currEmpty[move] * 7]
+        # self.stateVector[move + self.currEmpty[move] * 7]
         self.currEmpty[move] = self.currEmpty[move] + 1
         return InvalidMoveCases.InvalidMoveCases.ValidMove
 
@@ -45,6 +46,10 @@ class ConnectFour(IArrayGame.IArrayGame):
         while isOver == GameState.GameState.NotOver:
             # Make a move
             move = self.players[self.currPlayer].makeMove(self.stateVector)
+            if math.isnan(move):
+                move = -1
+            else:
+                move = int(move)
             moveValidity = self.makeMove(move)
             while moveValidity == InvalidMoveCases.InvalidMoveCases.PlayerInvalid:
                 if 0 > move or move > 6:
@@ -163,16 +168,6 @@ class ConnectFour(IArrayGame.IArrayGame):
             for j in range(7):
                 print('{:3}'.format(translate(self.state[j][6 - i])), end='')
             print()
-
-    # Creates a new ConnectFourNN from a NN with the correct input layer
-    @staticmethod
-    def createNewAI(Name, brain):
-        return ConnectFourNN.ConnectFourNN(Name, brain)
-
-    # Gets the input layer for a ConnectFour NN
-    @staticmethod
-    def getInputLayer():
-        return ConnectFourNN.ConnectFourNN.getInputLayer()
 
 
 def translate(x):
