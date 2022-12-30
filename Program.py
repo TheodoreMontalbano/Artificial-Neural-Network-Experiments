@@ -18,15 +18,15 @@ def main():
         elif int(choice) == 2:
             choice = input("What game would you like to train an AI for \n 1. ConnectFour \n")
             if int(choice) == 1:
-                trainAI(ConnectFour.ConnectFour, ArrayGameGeneticAlgorithm.GeneticAlgorithm)
+                trainAI(ConnectFourNN.ConnectFourNN, ArrayGameGeneticAlgorithm.GeneticAlgorithm)
         else:
             print("Invalid Selection")
             test()
             break
 
 
-def trainAI(game, learningAlgorithm):
-    learnState = learningAlgorithm(game)
+def trainAI(nNPlayer, learningAlgorithm):
+    learnState = learningAlgorithm(nNPlayer)
     while True:
         choice = input("Choose an option \n 1. Go to next gen \n 2. Go forward n generations \n")
         if int(choice) == 1:
@@ -47,7 +47,7 @@ def playGame(game):
 
 
 def test():
-    parentOne = NeuralNetwork.NeuralNetwork(None, None, None, [2, 3, 4, 5])
+    parentOne = NeuralNetwork.NeuralNetwork([2, 3, 4, 5])
     ConnectFourNN.ConnectFourNN("test", parentOne)
     print("hi")
 
