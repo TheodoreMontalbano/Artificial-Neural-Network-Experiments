@@ -20,13 +20,15 @@ def selectLeftSkewRandomly(numToSelect, popSize):
         if popSize - i == numToSelect:
             selected.append(i)
             numToSelect = numToSelect - 1
-        else:
+        elif numToSelect > 0:
             save = random.randint(0, 1)
-            if not save:
+            if save:
                 selected.append(i)
                 numToSelect = numToSelect - 1
             else:
                 unselected.append(i)
+        else:
+            unselected.append(i)
     return [selected, unselected]
 
 
@@ -38,11 +40,13 @@ def selectRightSkewRandomly(numToSelect, popSize):
         if popSize - i == numToSelect:
             selected.append(popSize - i - 1)
             numToSelect = numToSelect - 1
-        else:
+        elif numToSelect > 0:
             save = random.randint(0, 1)
-            if not save:
+            if save:
                 selected.append(popSize - i - 1)
                 numToSelect = numToSelect - 1
             else:
                 unselected.append(popSize - i - 1)
+        else:
+            unselected.append(popSize - i - 1)
     return [selected, unselected]

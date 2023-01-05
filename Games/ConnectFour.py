@@ -1,7 +1,6 @@
 from GameInterfaces import IArrayGame
 from copy import deepcopy
 from Enums import GameState, InvalidMoveCases
-from NeuralNetworks import ConnectFourNN
 import math
 
 
@@ -34,7 +33,7 @@ class ConnectFour(IArrayGame.IArrayGame):
             else:
                 return InvalidMoveCases.InvalidMoveCases.PlayerInvalid
         self.state[move][self.currEmpty[move]] = self.currPlayer + 1
-        # self.stateVector[move + self.currEmpty[move] * 7]
+        self.stateVector[move + self.currEmpty[move] * 7 - 7] = self.currPlayer + 1
         self.currEmpty[move] = self.currEmpty[move] + 1
         return InvalidMoveCases.InvalidMoveCases.ValidMove
 
@@ -167,6 +166,8 @@ class ConnectFour(IArrayGame.IArrayGame):
         for i in range(1, 7):
             for j in range(7):
                 print('{:3}'.format(translate(self.state[j][6 - i])), end='')
+            print()
+        if self.players[self.currPlayer].isRobot():
             print()
 
 

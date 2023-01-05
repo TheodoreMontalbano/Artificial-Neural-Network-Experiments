@@ -5,19 +5,15 @@ from AIBuildingBlocks import NeuralNetwork
 from Games import ConnectFour
 
 
-# Function used as the activation function for the output Layer of the connect Four game
-def ConnectFourOutputLayer(x):
-    return np.floor(MathFunctions.aSigmoid(x, 8))
-
-
 class ConnectFourNN(INNPlayer.INNPlayer):
     _brain = None
     _inputLayer = 42
     _name = None
-    _outputFunction = ConnectFourOutputLayer
+    _outputFunction = None
     _outputLayer = 1
 
     def __init__(self, name, shape):
+        self._outputFunction = ConnectFourNN.ConnectFourOutputLayer
         length = len(shape)
         if shape[length - 1] == 1:
             activationFunctions = [None for i in range(length)]
@@ -28,8 +24,9 @@ class ConnectFourNN(INNPlayer.INNPlayer):
         self._name = name
         if not self._brain.getShapeAtIndex(0) == self._inputLayer:
             self._brain.addLayerAtIndex(0, None, self._inputLayer)
-        if not self._brain.getShapeAtIndex(self._brain.getSize() - 1) == self._outputLayer and \
-                not self._brain.getActivationFunction(self._brain.getSize() - 1) == self._outputFunction:
+        if self._brain.getShapeAtIndex(self._brain.getSize() - 1) == self._outputLayer:
+            self._brain.setActivationFunction(self._brain.getSize() - 1, self._outputFunction)
+        else:
             self._brain.addLayer(self._outputFunction, self._outputLayer)
 
     # sets edgeweight k at node j at layer i to newVal
@@ -67,6 +64,11 @@ class ConnectFourNN(INNPlayer.INNPlayer):
     def getGame():
         return ConnectFour.ConnectFour
 
+    # Function used as the activation function for the output Layer of the connect Four game
+    @staticmethod
+    def ConnectFourOutputLayer(x):
+        return np.floor(MathFunctions.aSigmoid(x, 7))
+
     # add a layer at the given layer
     def addLayerAtIndex(self, index, activationFunction=None, nodeNumber=1):
         self._brain.addLayerAtIndex(index, activationFunction, nodeNumber)
@@ -74,3 +76,28 @@ class ConnectFourNN(INNPlayer.INNPlayer):
     # deletes the layer at the given index
     def deleteLayerAtIndex(self, index):
         self._brain.deleteLayerAtIndex(index)
+
+    # This player makes a move
+    def makeMove(self, state):
+        return self._brain.processVector(state)
+
+    # This is a robot so...
+    def isRobot(self):
+        return True
+
+    # Returns the shape of NN
+    def getShape(self):
+        return self._brain.getShape()
+
+    # Returns the name of the game
+    @staticmethod
+    def getGameName():
+        return "ConnectFour"
+
+    # The activation function at layer i
+    def getActivationFunction(self, i):
+        return self._brain.getActivationFunction(i)
+
+    # sets the activation function at layer i
+    def setActivationFunction(self, i, func):
+        self._brain.setActivationFunction(i, func)

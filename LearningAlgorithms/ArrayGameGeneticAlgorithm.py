@@ -3,7 +3,6 @@ from AIBuildingBlocks import NeuralNetwork, Neuron
 from numpy import floor
 from copy import deepcopy
 from Math import MathFunctions
-from GameInterfaces import IArrayGame, INNPlayer
 
 
 class GeneticAlgorithm:
@@ -29,17 +28,20 @@ class GeneticAlgorithm:
     _genCount = 0
     # The neural network game player class
     _nNPlayer = None
+    # The max amount of layers to generate
+    _layerBound = None
 
     # nNPlayer: The type of NN player to train should be an INNPlayer
     # genSize: How many AI to have in each generation
     # bound: max amount of layers to randomly initiate initially
     # killPerGen: How many AI to kill each generation
     # mutationChance: Fraction of how likely a mutation is to occur
-    def __init__(self, nNPlayer, genSize=100, bound=5, killPerGen=33, mutationChance=[1, 10], showPerGen=10):
+    def __init__(self, nNPlayer, genSize=100, layerBound=1, nodeBound=50, killPerGen=33, mutationChance=[1, 10], showPerGen=10):
         self._mutationChance = mutationChance
-        self._bound = int(bound)
-        self._nNPlayer = INNPlayer.INNPlayer(nNPlayer)
-        self._game = IArrayGame.IArrayGame(nNPlayer)
+        self._nodeBound = nodeBound
+        self._layerBound = layerBound
+        self._nNPlayer = nNPlayer
+        self._game = self._nNPlayer.getGame()
         self._genSize = int(genSize)
         self._currAI = [self._nNPlayer(self.genID(), self.genBrain()) for i in range(genSize)]
         self._fitnessTracker = [0 for i in range(genSize)]
@@ -53,11 +55,11 @@ class GeneticAlgorithm:
 
     # Generates a new Neural network game based on the AI input
     def genBrain(self):
-        layerNum = random.randint(1, self._bound) + 1
+        layerNum = random.randint(1, self._layerBound)
         shape = []
         for i in range(layerNum):
-            shape.append(random.randint(1, self._bound) + 1)
-        return NeuralNetwork.NeuralNetwork(shape)
+            shape.append(random.randint(1, self._nodeBound) + 1)
+        return shape
 
     # Generates an ID for a new AI
     def genID(self):
@@ -76,8 +78,10 @@ class GeneticAlgorithm:
     # Outputs the top performers of this generation based on the fitness chart
     def outputTopPerformers(self, fitnessChart):
         print("Gen: " + str(self._genCount))
+        fitnessChart.sort(key=lambda x: x[1], reverse=True)
         for i in range(self._showPerGen):
-            print("AI: " + fitnessChart[i][0] + "Fitness Score: " + str(fitnessChart[i][1]))
+            print("AI: " + str(fitnessChart[i][0]) + " Fitness Score: " + str(fitnessChart[i][1])
+                  + " Shape: " + str(fitnessChart[i][2]))
 
     # Resets relevant variables to get program ready for next generation
     def resetRound(self):
@@ -86,12 +90,12 @@ class GeneticAlgorithm:
     # plays out the next n gens
     def nextNGens(self, n, show=False):
         for i in range(n - 1):
-            self.nextGen(show)
+            self.nextGen(True)
         self.nextGen()
 
     # Assesses the fitness of all AI
     def assessFitness(self):
-        currGame = None
+        gameOne = None
         removedList = []
         coinFlip = 0
         result = -1
@@ -106,39 +110,39 @@ class GeneticAlgorithm:
                 else:
                     playerOne = self._currAI[j]
                     playerTwo = self._currAI[i]
-                currGame = self._game(playerOne, playerTwo)
-                result = currGame.playGame()
-                if result == -1:
-                    # Tie game
-                    self._fitnessTracker[self._aiDict[playerOne.Name]] = \
-                        self._fitnessTracker[self._aiDict[playerOne.Name]] + 1 / 2
-                    self._fitnessTracker[self._aiDict[playerTwo.Name]] = \
-                        self._fitnessTracker[self._aiDict[playerTwo.Name]] + 1 / 2
-                elif result == 0:
-                    # Player one wins
-                    self._fitnessTracker[self._aiDict[playerOne.Name]] = \
-                        self._fitnessTracker[self._aiDict[playerOne.Name]] + 1
-                    self._fitnessTracker[self._aiDict[playerTwo.Name]] = \
-                        self._fitnessTracker[self._aiDict[playerTwo.Name]] - 1
-                else:
-                    # Player two wins
-                    self._fitnessTracker[self._aiDict[playerOne.Name]] = \
-                        self._fitnessTracker[self._aiDict[playerOne.Name]] - 1
-                    self._fitnessTracker[self._aiDict[playerTwo.Name]] = \
-                        self._fitnessTracker[self._aiDict[playerTwo.Name]] + 1
+                gameOne = self._game(playerOne, playerTwo)
+                gameTwo = self._game(playerTwo, playerOne)
+                self.scoreAI(playerTwo, playerOne, gameTwo.playGame())
+                self.scoreAI(playerOne, playerTwo, gameOne.playGame())
+
+    # We assume p1 goes first
+    def scoreAI(self, playerOne, playerTwo, result):
+        if result == 0:
+            # Player one wins
+            self._fitnessTracker[self._aiDict[playerOne.getName()]] = \
+                self._fitnessTracker[self._aiDict[playerOne.getName()]] + 1
+            self._fitnessTracker[self._aiDict[playerTwo.getName()]] = \
+                self._fitnessTracker[self._aiDict[playerTwo.getName()]] - 1
+        else:
+            # Player two wins
+            self._fitnessTracker[self._aiDict[playerTwo.getName()]] = \
+                self._fitnessTracker[self._aiDict[playerTwo.getName()]] + 1
+            self._fitnessTracker[self._aiDict[playerOne.getName()]] = \
+                self._fitnessTracker[self._aiDict[playerOne.getName()]] - 1
 
     # Kills off those with low fitness and has the remainder reproduce to bring pop to genSize
     def killStragglersAndReproduce(self):
-        temp = [0, 0]
+        temp = [0, 0, 0]
         # ID, fitness
         fitnessRatings = [deepcopy(temp) for i in range(self._genSize)]
         for i in range(self._genSize):
             fitnessRatings[i][0] = self._currAI[i].getName()
             fitnessRatings[i][1] = self._fitnessTracker[i]
+            fitnessRatings[i][2] = self._currAI[i].getShape()
         fitnessRatings.sort(key=lambda x: x[1])
         # 0 index is ones who were selected, 1 index is ones who were not
 
-        #TODO don't reproduce with AI that were killed
+        # TODO don't reproduce with AI that were killed
         killSelection = MathFunctions.selectLeftSkewRandomly(self._killPerGen, self._genSize)
         reproduceSelection = [[]]
         for i in range(len(killSelection[0])):
@@ -173,37 +177,40 @@ class GeneticAlgorithm:
             if mutationType <= 50:
                 sums = 0
                 index = 0
-                for i in range(childNN.getSize()):
+                for i in range(1, childNN.getSize()):
                     sums = sums + childNN.getShapeAtIndex(i)
                 randNum = random.randint(1, sums)
-                sums = 0
-                for i in range(childNN.getSize()):
-                    sums = sums + childNN.getShapeAtIndex(i)
-                    if sums > randNum:
-                        sums = sums - childNN.getShapeAtIndex(i)
+                secSum = 0
+                for i in range(1, childNN.getSize()):
+                    secSum = secSum + childNN.getShapeAtIndex(i)
+                    if secSum > randNum:
+                        secSum = secSum - childNN.getShapeAtIndex(i)
                         index = i
                         break
-                childNN.setEdgeWeight(index, randNum - sums
-                                      , random.randint(0, childNN.getShapeAtIndex(index - 1)), random.random())
+                childNN.setEdgeWeight(index, randNum - secSum
+                                      , random.randint(0, childNN.getShapeAtIndex(index - 1) - 1)
+                                      , random.random() * 2 - 1)
             # Add or delete a random neuron (not input or output layer)
             elif mutationType <= 90:
-                index = random.randint(1, len(childNN.getSize()) - 2)
+                index = random.randint(1, childNN.getSize() - 2)
                 if mutationType <= 70 and childNN.getShapeAtIndex(index) > 1:
-                    randNum = random.randint(0, childNN.getShapeAtIndex() - 1)
+                    randNum = random.randint(0, childNN.getShapeAtIndex(index) - 1)
                     # Delete a neuron
-                    childNN.deleteNeuron(index, randNum)
+                    # TODO this is bugged
+                    # childNN.deleteNeuron(index, randNum)
                 else:
                     # Add a neuron
                     childNN.addNeuron(index)
             # Add or delete a random layer (not input or output)
-            else:
-                randNum = random.randint(1, len(childNN.shape) - 2)
-                if mutationType <= 95 or len(childNN.shape) < 3:
-                    # Add a layer randomly
-                    childNN.addLayerAtIndex(randNum, None, random.randint(1, self._bound))
-                else:
-                    # Remove a layer randomly
-                    childNN.deleteLayerAtIndex(randNum)
+            # TODO this is bugged
+            # else:
+            #    randNum = random.randint(1, childNN.getSize() - 2)
+            #    if mutationType <= 95 or childNN.getSize() < 3:
+            #        # Add a layer randomly
+            #        childNN.addLayerAtIndex(randNum, None, random.randint(1, self._bound))
+            #    else:
+            #        # Remove a layer randomly
+            #        childNN.deleteLayerAtIndex(randNum)
 
     # Distributes genes from parents to child
     # Assumes parentTwo has more Layers than parentOne
@@ -213,29 +220,56 @@ class GeneticAlgorithm:
         # For each layer of childShape
         for i in range(1, len(childShape)):
             # If Parent one is smaller than the current spot of child we are iterating over
-            if parentOne.getSize <= i:
+            if parentOne.getSize() <= i:
                 while not parentTwo.getShapeAtIndex(secParHelpIndex) == childShape[i]:
                     secParHelpIndex = secParHelpIndex + 1
                 # For each node in that layer
                 for j in range(childShape[i]):
                     # For each edgeweight in that node
-                    for k in range(childShape[i - 1]):
-                        childNN.setEdgeWeight(i, j, k, parentTwo.getEdgeWeight(i, j, k))
+                    # TODO check this logic do we need the first if?
+                    if i < parentTwo.getSize() and j < parentTwo.getShapeAtIndex(i):
+                        for k in range(childShape[i - 1]):
+                            # TODO Check if we need the if else
+                            if k < parentTwo.getShapeAtIndex(i - 1):
+                                childNN.setEdgeWeight(i, j, k, parentTwo.getEdgeWeight(i, j, k))
+                            else:
+                                childNN.setEdgeWeight(i, j, k, random.random())
+                    else:
+                        for k in range(childShape[i - 1]):
+                            childNN.setEdgeWeight(i, j, k, random.random())
             else:
                 # For each node in that layer
+                # TODO add handling for different node counts
                 for j in range(childShape[i]):
-                    # For each edgeweight in that node
-                    for k in range(childShape[i - 1]):
-                        # Cases where only one has a possible gene
-                        if k >= parentOne.getShapeAtIndex(i - 1):
-                            childNN.setEdgeWeight(i, j, k, parentTwo.getEdgeWeight(i, j, k))
-                        elif k >= parentTwo.getShapeAtIndex(i - 1):
-                            childNN.setEdgeWeight(i, j, k, parentOne.getEdgeWeight(i, j, k))
-                        # Cases where both have possible genes
-                        elif random.randint(0, 1):
-                            childNN.setEdgeWeight(i, j, k, parentOne.getEdgeWeight(i, j, k))
-                        else:
-                            childNN.setEdgeWeight(i, j, k, parentTwo.getEdgeWeight(i, j, k))
+                    # If only parent one has enough nodes to account
+                    if j >= parentOne.getShapeAtIndex(i):
+                        for k in range(childShape[i - 1]):
+                            if k < parentTwo.getShapeAtIndex(i - 1):
+                                childNN.setEdgeWeight(i, j, k, parentTwo.getEdgeWeight(i, j, k))
+                            # Child has too many nodes for parent one
+                            else:
+                                childNN.setEdgeWeight(i, j, k, random.random())
+                    # If only parent two has enough nodes to contribute genes
+                    elif j >= parentTwo.getShapeAtIndex(i):
+                        for k in range(childShape[i - 1]):
+                            if k < parentOne.getShapeAtIndex(i - 1):
+                                childNN.setEdgeWeight(i, j, k, parentOne.getEdgeWeight(i, j, k))
+                            # Child has too many nodes for parent one
+                            else:
+                                childNN.setEdgeWeight(i, j, k, random.random())
+                    else:
+                        # For each edgeweight in that node
+                        for k in range(childShape[i - 1]):
+                            # Cases where only one has a possible gene
+                            if k >= parentOne.getShapeAtIndex(i - 1):
+                                childNN.setEdgeWeight(i, j, k, parentTwo.getEdgeWeight(i, j, k))
+                            elif k >= parentTwo.getShapeAtIndex(i - 1):
+                                childNN.setEdgeWeight(i, j, k, parentOne.getEdgeWeight(i, j, k))
+                            # Cases where both have possible genes
+                            elif random.randint(0, 1):
+                                childNN.setEdgeWeight(i, j, k, parentOne.getEdgeWeight(i, j, k))
+                            else:
+                                childNN.setEdgeWeight(i, j, k, parentTwo.getEdgeWeight(i, j, k))
         return childNN
 
     # Creates a new shape from the two input shapes the new shape will not have an output layer
@@ -252,10 +286,41 @@ class GeneticAlgorithm:
         for i in range(nNTwo.getSize() - nNOne.getSize()):
             coinFlip = random.randint(0, 1)
             if coinFlip:
-                newShape.append(nNTwo.getShapeAtIndex(i + len(nNOne) - 1))
+                newShape.append(nNTwo.getShapeAtIndex(i + nNOne.getSize() - 1))
         return newShape
 
     # replaces an AI in the population (kills it) with a new AI (births it)
     def replaceAI(self, index, replaceWith):
         self._currAI[index] = replaceWith
         self._aiDict[replaceWith.getName()] = index
+
+    # Opens a file to save the AI in
+    # TODO properly save activationfunction
+    def saveAI(self, name):
+        indent = "    "
+        toSave = self._currAI[self._aiDict[int(name)]]
+        fileName = "Gen-" + self._nNPlayer.getGameName() + "-" + str(toSave.getName()) + ".txt"
+        file = open("SavedNeuralNetworks/" + fileName, "w")
+        file.write("Shape: " + str(toSave.getShape()) + '\n')
+        for i in range(1, toSave.getSize()):
+            file.write("Layer " + str(i) + ":\n")
+            file.write(indent + "ActivationFunction: " + toSave.getActivationFunction(i).__name__ + "\n")
+            for k in range(toSave.getShapeAtIndex(i)):
+                file.write(indent + "Node " + str(k) + ":\n")
+                for j in range(toSave.getShapeAtIndex(i - 1)):
+                    file.write(indent + indent + "EdgeWeight " + str(j) + ": " + str(toSave.getEdgeWeight(i, k, j))
+                               + "\n")
+        file.close()
+
+    # Has two AI play a match that can be viewed
+    def showMatch(self, playerOneId, playerTwoId):
+        nNOne = self._currAI[self._aiDict[int(playerOneId)]]
+        nNTwo = self._currAI[self._aiDict[int(playerTwoId)]]
+        toShow = self._game(nNOne, nNTwo, True)
+        result = toShow.playGame()
+        if result == 0:
+            print("Player One Wins")
+        elif result == 1:
+            print("Player Two Wins")
+        else:
+            print("No Contest")

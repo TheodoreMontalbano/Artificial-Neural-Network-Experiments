@@ -1,0 +1,403 @@
+Shape: [42, 6, 5, 4, 3, 5, 3, 3, 1]
+Layer 1:
+    ActivationFunction: sigmoid
+    Node 0:
+        EdgeWeight 0: 0.9190650862753884
+        EdgeWeight 1: -0.7250290618730626
+        EdgeWeight 2: -0.2609253647705183
+        EdgeWeight 3: -0.7068465414355121
+        EdgeWeight 4: -0.15761748781905238
+        EdgeWeight 5: -0.6153677673672133
+        EdgeWeight 6: 0.036081115585842705
+        EdgeWeight 7: 0.07693407312404044
+        EdgeWeight 8: -0.23968944689756144
+        EdgeWeight 9: 0.3220174056089913
+        EdgeWeight 10: -0.7335131661038194
+        EdgeWeight 11: 0.8659341775921494
+        EdgeWeight 12: -0.5681685063823538
+        EdgeWeight 13: 0.8936334274093996
+        EdgeWeight 14: -0.6348960052931509
+        EdgeWeight 15: -0.22412652612701822
+        EdgeWeight 16: 0.9714070703466686
+        EdgeWeight 17: -0.5496293892623354
+        EdgeWeight 18: -0.4514017009922453
+        EdgeWeight 19: -0.6572074125512766
+        EdgeWeight 20: -0.9457549970146539
+        EdgeWeight 21: -0.5757799352640698
+        EdgeWeight 22: -0.3711493875080878
+        EdgeWeight 23: 0.7619951822559785
+        EdgeWeight 24: 0.9276356410373086
+        EdgeWeight 25: 0.593862659041626
+        EdgeWeight 26: 0.4499231369238075
+        EdgeWeight 27: 0.15018687928285535
+        EdgeWeight 28: 0.156206344913022
+        EdgeWeight 29: 0.11968020852340255
+        EdgeWeight 30: 0.334623684130936
+        EdgeWeight 31: 0.6349368911551434
+        EdgeWeight 32: -0.19464167690322576
+        EdgeWeight 33: 0.9056327249153131
+        EdgeWeight 34: -0.38431753044343586
+        EdgeWeight 35: 0.602645083622575
+        EdgeWeight 36: -0.18397965124428617
+        EdgeWeight 37: 0.6771265053658784
+        EdgeWeight 38: -0.34016943893471985
+        EdgeWeight 39: -0.36583604272311776
+        EdgeWeight 40: -0.8386941117014537
+        EdgeWeight 41: -0.7644724091242139
+    Node 1:
+        EdgeWeight 0: 0.6596647936549478
+        EdgeWeight 1: 0.7002867600199016
+        EdgeWeight 2: -0.6737083354613229
+        EdgeWeight 3: 0.3240902971217545
+        EdgeWeight 4: 0.9342526289950985
+        EdgeWeight 5: 0.27639194016092583
+        EdgeWeight 6: -0.2503433732268643
+        EdgeWeight 7: 0.5350389437909495
+        EdgeWeight 8: 0.9588616361837403
+        EdgeWeight 9: -0.4032750801120333
+        EdgeWeight 10: 0.38781621759227813
+        EdgeWeight 11: -0.4262992411769486
+        EdgeWeight 12: 0.1129788090266739
+        EdgeWeight 13: -0.3582883220582518
+        EdgeWeight 14: 0.12898705736032712
+        EdgeWeight 15: -0.8406702917792992
+        EdgeWeight 16: 0.626822998340256
+        EdgeWeight 17: -0.9431281728905581
+        EdgeWeight 18: -0.335700057676696
+        EdgeWeight 19: 0.027293133649359813
+        EdgeWeight 20: 0.8208712218765926
+        EdgeWeight 21: 0.771506270485351
+        EdgeWeight 22: -0.9080349385542188
+        EdgeWeight 23: 0.17562587135588248
+        EdgeWeight 24: -0.8383268333113305
+        EdgeWeight 25: 0.1751547304552603
+        EdgeWeight 26: 0.5695659246264078
+        EdgeWeight 27: -0.4541879077624753
+        EdgeWeight 28: 0.1917709798245566
+        EdgeWeight 29: 0.7852234461296592
+        EdgeWeight 30: 0.2132794425489999
+        EdgeWeight 31: 0.19330917550536197
+        EdgeWeight 32: 0.021924411473132288
+        EdgeWeight 33: 0.05499400531826337
+        EdgeWeight 34: -0.08986150922866121
+        EdgeWeight 35: 0.12368674860127427
+        EdgeWeight 36: 0.2300594203077786
+        EdgeWeight 37: 0.5249522575746719
+        EdgeWeight 38: 0.24731955859435928
+        EdgeWeight 39: -0.7045756428064909
+        EdgeWeight 40: 0.0837581817360935
+        EdgeWeight 41: -0.14653524563800224
+    Node 2:
+        EdgeWeight 0: 0.28175428208369935
+        EdgeWeight 1: -0.7572391066991166
+        EdgeWeight 2: -0.7328444208354228
+        EdgeWeight 3: -0.65822528360449
+        EdgeWeight 4: 0.2005705613231954
+        EdgeWeight 5: -0.4771437809098844
+        EdgeWeight 6: 0.9142472710688887
+        EdgeWeight 7: -0.5130646546165352
+        EdgeWeight 8: 0.009995376392741173
+        EdgeWeight 9: -0.7489334570885284
+        EdgeWeight 10: -0.39884826813399
+        EdgeWeight 11: -0.007964272145200901
+        EdgeWeight 12: -0.10196165278537483
+        EdgeWeight 13: -0.974035090933639
+        EdgeWeight 14: -0.30511994982736956
+        EdgeWeight 15: 0.2677332909144563
+        EdgeWeight 16: 0.4278439567298782
+        EdgeWeight 17: 0.7192204345118531
+        EdgeWeight 18: 0.09385582047109442
+        EdgeWeight 19: -0.8411762117584398
+        EdgeWeight 20: -0.09511685385371416
+        EdgeWeight 21: -0.04719939864114031
+        EdgeWeight 22: -0.6883549175136183
+        EdgeWeight 23: 0.03519371485107525
+        EdgeWeight 24: -0.773038972760117
+        EdgeWeight 25: -0.39354408109310923
+        EdgeWeight 26: 0.4218072805619222
+        EdgeWeight 27: 0.5109412552750463
+        EdgeWeight 28: -0.20806967784019337
+        EdgeWeight 29: -0.9795255761884867
+        EdgeWeight 30: 0.8875721301160124
+        EdgeWeight 31: 0.6469713550170664
+        EdgeWeight 32: -0.16510819418443035
+        EdgeWeight 33: -0.6182355885899389
+        EdgeWeight 34: 0.03423195736851237
+        EdgeWeight 35: 0.0671293898458496
+        EdgeWeight 36: -0.9604707411122009
+        EdgeWeight 37: 0.5580326300407918
+        EdgeWeight 38: 0.9915718240312779
+        EdgeWeight 39: -0.11504284398854003
+        EdgeWeight 40: 0.6538528703840187
+        EdgeWeight 41: -0.14411271191177333
+    Node 3:
+        EdgeWeight 0: 0.7006780436113
+        EdgeWeight 1: 0.7505273112849282
+        EdgeWeight 2: 0.22171606671483302
+        EdgeWeight 3: -0.2793325095041501
+        EdgeWeight 4: -0.731933542662585
+        EdgeWeight 5: -0.05188721860365475
+        EdgeWeight 6: -0.7492883402082879
+        EdgeWeight 7: -0.9145129283498215
+        EdgeWeight 8: 0.15957843003618488
+        EdgeWeight 9: -0.09444647854829902
+        EdgeWeight 10: -0.5383881645360074
+        EdgeWeight 11: -0.5783169945327911
+        EdgeWeight 12: -0.48548167728988334
+        EdgeWeight 13: 0.02528991954155413
+        EdgeWeight 14: -0.7445449804369777
+        EdgeWeight 15: 0.2646406857681194
+        EdgeWeight 16: 0.8387904413739853
+        EdgeWeight 17: 0.574082323700382
+        EdgeWeight 18: 0.8317353168709902
+        EdgeWeight 19: 0.5568768780060291
+        EdgeWeight 20: 0.23527775420473684
+        EdgeWeight 21: -0.5101271229244861
+        EdgeWeight 22: 0.38187475337030685
+        EdgeWeight 23: 0.23922723871349438
+        EdgeWeight 24: 0.41001689582933154
+        EdgeWeight 25: 0.31604795921659967
+        EdgeWeight 26: 0.834329045957054
+        EdgeWeight 27: 0.5245235675501885
+        EdgeWeight 28: -0.4555371544299618
+        EdgeWeight 29: 0.8862069347820725
+        EdgeWeight 30: 0.4328698543455318
+        EdgeWeight 31: 0.42014342562137585
+        EdgeWeight 32: 0.09726019142486941
+        EdgeWeight 33: 0.05049384381266764
+        EdgeWeight 34: -0.14881949866587485
+        EdgeWeight 35: 0.06663444062187618
+        EdgeWeight 36: 0.38665764934186764
+        EdgeWeight 37: 0.8978465149333379
+        EdgeWeight 38: 0.9812668821134016
+        EdgeWeight 39: -0.7159237362821176
+        EdgeWeight 40: -0.1551770789023903
+        EdgeWeight 41: -0.012068597449020002
+    Node 4:
+        EdgeWeight 0: 0.20868550781042328
+        EdgeWeight 1: 0.9281718828587895
+        EdgeWeight 2: 0.01028814069951145
+        EdgeWeight 3: 0.4965266822583161
+        EdgeWeight 4: -0.47380244460334264
+        EdgeWeight 5: 0.8850970110881602
+        EdgeWeight 6: 0.2156291210911816
+        EdgeWeight 7: 0.4964389937427771
+        EdgeWeight 8: -0.1319180015751511
+        EdgeWeight 9: -0.9504276506274354
+        EdgeWeight 10: -0.42236860478940885
+        EdgeWeight 11: -0.15586148205994155
+        EdgeWeight 12: -0.31264014980729193
+        EdgeWeight 13: 0.9055194322444935
+        EdgeWeight 14: -0.5588193743491925
+        EdgeWeight 15: -0.9193338049755628
+        EdgeWeight 16: 0.41122331939713797
+        EdgeWeight 17: 0.44036437855806776
+        EdgeWeight 18: -0.5233180152647678
+        EdgeWeight 19: -0.12632428819113506
+        EdgeWeight 20: 0.46937629567611094
+        EdgeWeight 21: -0.7365160803282913
+        EdgeWeight 22: -0.1389489567156521
+        EdgeWeight 23: -0.9842432594055432
+        EdgeWeight 24: -0.45646145054072784
+        EdgeWeight 25: 0.7027975988899313
+        EdgeWeight 26: -0.9016519572093022
+        EdgeWeight 27: 0.9293284411121885
+        EdgeWeight 28: -0.138723504412416
+        EdgeWeight 29: 0.21359367275831764
+        EdgeWeight 30: -0.3964427440268159
+        EdgeWeight 31: 0.8976098235665677
+        EdgeWeight 32: 0.18953496962630112
+        EdgeWeight 33: 0.9717217080060359
+        EdgeWeight 34: -0.5888180221917292
+        EdgeWeight 35: -0.023056253529176285
+        EdgeWeight 36: 0.9988504668056857
+        EdgeWeight 37: -0.40054256889718975
+        EdgeWeight 38: 0.2715977621227883
+        EdgeWeight 39: 0.048494026609530394
+        EdgeWeight 40: -0.4328246067435253
+        EdgeWeight 41: 0.13381697420166527
+    Node 5:
+        EdgeWeight 0: -0.23552908041727894
+        EdgeWeight 1: 0.9166187021681693
+        EdgeWeight 2: 0.01028814069951145
+        EdgeWeight 3: 0.4965266822583161
+        EdgeWeight 4: 0.31553920844333105
+        EdgeWeight 5: 0.2490597905689611
+        EdgeWeight 6: 0.5023806009803866
+        EdgeWeight 7: 0.6043318634386918
+        EdgeWeight 8: 0.5946773946609638
+        EdgeWeight 9: 0.04830051769156629
+        EdgeWeight 10: 0.8284845167705106
+        EdgeWeight 11: 0.8911717308481157
+        EdgeWeight 12: -0.31264014980729193
+        EdgeWeight 13: 0.9055194322444935
+        EdgeWeight 14: -0.916413612830961
+        EdgeWeight 15: -0.9855764937845761
+        EdgeWeight 16: 0.5121961500697674
+        EdgeWeight 17: -0.32126123499720993
+        EdgeWeight 18: 0.3131695887945538
+        EdgeWeight 19: -0.12632428819113506
+        EdgeWeight 20: 0.2676245091785949
+        EdgeWeight 21: -0.23685624953474127
+        EdgeWeight 22: -0.1389489567156521
+        EdgeWeight 23: -0.5819928882818592
+        EdgeWeight 24: -0.45646145054072784
+        EdgeWeight 25: 0.6626730979897384
+        EdgeWeight 26: 0.9485268468297403
+        EdgeWeight 27: -0.024847188284063293
+        EdgeWeight 28: 0.795437103607421
+        EdgeWeight 29: 0.21359367275831764
+        EdgeWeight 30: 0.531598434304621
+        EdgeWeight 31: 0.8976098235665677
+        EdgeWeight 32: 0.35280776260778945
+        EdgeWeight 33: 0.9717217080060359
+        EdgeWeight 34: -0.5888180221917292
+        EdgeWeight 35: 0.5080606772561498
+        EdgeWeight 36: 0.8181604776877087
+        EdgeWeight 37: -0.9750165255426646
+        EdgeWeight 38: 0.9711567281677538
+        EdgeWeight 39: 0.2956731068104046
+        EdgeWeight 40: -0.4328246067435253
+        EdgeWeight 41: 0.13381697420166527
+Layer 2:
+    ActivationFunction: sigmoid
+    Node 0:
+        EdgeWeight 0: -0.32412789693803323
+        EdgeWeight 1: 0.7300508583785426
+        EdgeWeight 2: -0.10526477242006349
+        EdgeWeight 3: -0.5917541353526319
+        EdgeWeight 4: -0.8167804814176312
+        EdgeWeight 5: 0.743731462851196
+    Node 1:
+        EdgeWeight 0: 0.843701605811233
+        EdgeWeight 1: 0.31606725829759763
+        EdgeWeight 2: -0.904873231163636
+        EdgeWeight 3: 0.7907404586946429
+        EdgeWeight 4: 0.7697152682376194
+        EdgeWeight 5: 0.743731462851196
+    Node 2:
+        EdgeWeight 0: -0.09642272319103218
+        EdgeWeight 1: 0.11297333707360124
+        EdgeWeight 2: 0.405421907039063
+        EdgeWeight 3: -0.8949287963313552
+        EdgeWeight 4: 0.3431448043297902
+        EdgeWeight 5: 0.743731462851196
+    Node 3:
+        EdgeWeight 0: -0.872614772552796
+        EdgeWeight 1: -0.22087747380245015
+        EdgeWeight 2: 0.7750710171972888
+        EdgeWeight 3: 0.5255599331601879
+        EdgeWeight 4: 0.7170015711881668
+        EdgeWeight 5: 0.743731462851196
+    Node 4:
+        EdgeWeight 0: -0.5045538649661965
+        EdgeWeight 1: 0.9564043423084776
+        EdgeWeight 2: 0.5286474670264436
+        EdgeWeight 3: 0.8108952488068211
+        EdgeWeight 4: -0.3542174306462449
+        EdgeWeight 5: 0.743731462851196
+Layer 3:
+    ActivationFunction: sigmoid
+    Node 0:
+        EdgeWeight 0: -0.3191986268357785
+        EdgeWeight 1: 0.15272630504402618
+        EdgeWeight 2: 0.9836195553596943
+        EdgeWeight 3: 0.31215199371681357
+        EdgeWeight 4: 0.015728635788290868
+    Node 1:
+        EdgeWeight 0: -0.3191986268357785
+        EdgeWeight 1: 0.15272630504402618
+        EdgeWeight 2: 0.9836195553596943
+        EdgeWeight 3: 0.17089794298516536
+        EdgeWeight 4: -0.9171118922194748
+    Node 2:
+        EdgeWeight 0: -0.3373900551794087
+        EdgeWeight 1: 0.6692023471161788
+        EdgeWeight 2: 0.49607416109932667
+        EdgeWeight 3: -0.6461014223891459
+        EdgeWeight 4: -0.3288647952616841
+    Node 3:
+        EdgeWeight 0: -0.3191986268357785
+        EdgeWeight 1: 0.15272630504402618
+        EdgeWeight 2: 0.9836195553596943
+        EdgeWeight 3: -0.6461014223891459
+        EdgeWeight 4: 0.01687748652400667
+Layer 4:
+    ActivationFunction: sigmoid
+    Node 0:
+        EdgeWeight 0: 0.8235166349933338
+        EdgeWeight 1: 0.2445038284667671
+        EdgeWeight 2: 0.8841077056300971
+        EdgeWeight 3: 0.5922092708922043
+    Node 1:
+        EdgeWeight 0: 0.9176596479381374
+        EdgeWeight 1: 0.2445038284667671
+        EdgeWeight 2: 0.8841077056300971
+        EdgeWeight 3: 0.5922092708922043
+    Node 2:
+        EdgeWeight 0: 0.6596653097311458
+        EdgeWeight 1: 0.2445038284667671
+        EdgeWeight 2: 0.8841077056300971
+        EdgeWeight 3: 0.5922092708922043
+Layer 5:
+    ActivationFunction: sigmoid
+    Node 0:
+        EdgeWeight 0: 0.38564963086907134
+        EdgeWeight 1: 0.9590739770317728
+        EdgeWeight 2: 0.3210711832241727
+    Node 1:
+        EdgeWeight 0: -0.9912089227090768
+        EdgeWeight 1: 0.9590739770317728
+        EdgeWeight 2: 0.3210711832241727
+    Node 2:
+        EdgeWeight 0: 0.9663197756114185
+        EdgeWeight 1: 0.9590739770317728
+        EdgeWeight 2: 0.3210711832241727
+    Node 3:
+        EdgeWeight 0: 0.8884300086444872
+        EdgeWeight 1: 0.9590739770317728
+        EdgeWeight 2: 0.3210711832241727
+    Node 4:
+        EdgeWeight 0: -0.49741171486870317
+        EdgeWeight 1: 0.9590739770317728
+        EdgeWeight 2: 0.3210711832241727
+Layer 6:
+    ActivationFunction: sigmoid
+    Node 0:
+        EdgeWeight 0: -0.3925543300253509
+        EdgeWeight 1: -0.4356545750027778
+        EdgeWeight 2: 0.5097573135475764
+        EdgeWeight 3: -0.5542839926282515
+        EdgeWeight 4: 0.027764950977095415
+    Node 1:
+        EdgeWeight 0: -0.36884316518718085
+        EdgeWeight 1: -0.1771252381006323
+        EdgeWeight 2: 0.7022070138637024
+        EdgeWeight 3: -0.1379181554892055
+        EdgeWeight 4: -0.48524956774978967
+    Node 2:
+        EdgeWeight 0: 0.0762046563451575
+        EdgeWeight 1: -0.308997353215547
+        EdgeWeight 2: -0.848632843430206
+        EdgeWeight 3: -0.5542839926282515
+        EdgeWeight 4: -0.13461854226836611
+Layer 7:
+    ActivationFunction: sigmoid
+    Node 0:
+        EdgeWeight 0: -0.3444973142747334
+        EdgeWeight 1: 0.9180324366852635
+        EdgeWeight 2: 0.5776533621388391
+    Node 1:
+        EdgeWeight 0: 0.05585724670492165
+        EdgeWeight 1: -0.3226260473086704
+        EdgeWeight 2: 0.5776533621388391
+    Node 2:
+        EdgeWeight 0: 0.05585724670492165
+        EdgeWeight 1: 0.9180324366852635
+        EdgeWeight 2: 0.5776533621388391
+Layer 8:
+    ActivationFunction: ConnectFourOutputLayer
+    Node 0:
+        EdgeWeight 0: -0.786949474039049
+        EdgeWeight 1: 0.43438756640217113
+        EdgeWeight 2: 0.5557079553753783

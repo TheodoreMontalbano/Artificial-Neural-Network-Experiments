@@ -1,6 +1,6 @@
 from AIBuildingBlocks import Layer
 import random
-import numpy as np
+from copy import deepcopy
 
 
 class NeuralNetwork:
@@ -23,13 +23,15 @@ class NeuralNetwork:
             self._layers = NeuralNetwork._createLayersFromShape(self._shape)
         return
 
+    # processes a vector of data and creates an output
     def processVector(self, vector):
         for i in self._layers:
             vector = i.process(vector)
         return vector
 
+    # appends a layer to the NN
     def addLayer(self, activationFunction=None, nodeNumber=1):
-        return self.addLayerAtIndex(len(self._shape), activationFunction, nodeNumber)
+        return self.addLayerAtIndex(len(self._shape) - 1, activationFunction, nodeNumber)
 
     # Adds the layer at the specified index
     def addLayerAtIndex(self, index, activationFunction=None, nodeNumber=1):
@@ -58,10 +60,10 @@ class NeuralNetwork:
         # Index should never be equal to the output or input layers never 0 or len(self._shape) - 1
         if self._shape[index + 1] > self._shape[index - 1]:
             for i in range(self._shape[index + 1] - self._shape[index - 1]):
-                self._layers[index + 1].deleteEdgeWeight(self._layers[index + 1].getEdgeWeightNumber() - 1)
+                self._layers[index].deleteEdgeWeight(self._layers[index + 1].getEdgeWeightNumber() - 1)
         elif self._shape[index + 1] < self._shape[index - 1]:
             for i in range(self._shape[index - 1] - self._shape[index + 1]):
-                self._layers[index + 1].addEdgeWeight(random.random())
+                self._layers[index].addEdgeWeight(random.random())
         self._layers.pop(index - 1)
         self._shape.pop(index)
 
@@ -74,9 +76,9 @@ class NeuralNetwork:
         return len(self._shape)
 
     # Returns the activation function for the layer at the specified index
-    def getActivationFunction(self, index):
+    def getActivationFunction(self, i):
         # Need to subtract 1 as there should always be 1 less layer than shape size
-        return self._layers[index - 1].getActivationFunction()
+        return self._layers[i - 1].getActivationFunction()
 
     # Creates Layers for a neural network based on a specified shape
     @staticmethod
@@ -119,3 +121,11 @@ class NeuralNetwork:
         # Adjust the layer that comes after this one if it exists
         if i < self.getSize():
             self._layers[i].addEdgeWeight(random.random())
+
+    # returns this neural network's shape
+    def getShape(self):
+        return deepcopy(self._shape)
+
+    # Sets the activationFunction at layer i to func
+    def setActivationFunction(self, i, func):
+        self._layers[i - 1].setActivationFunction(func)

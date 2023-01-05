@@ -22,9 +22,13 @@ class Neuron:
             self._edgeWeights = edgeWeights
             return
         if edgeNumber:
-            self._edgeWeights = np.ndarray(shape=edgeNumber, dtype=float)
+            self._edgeWeights = np.random.rand(edgeNumber)
+            for i in range(self._edgeWeights.size):
+                self._edgeWeights[i] = self._edgeWeights[i] * 2 - 1
             return
-        self._edgeWeights = np.ndarray(shape=(random.randint(bound - 1) + 1), dtype=float)
+        self._edgeWeights = np.random.rand(random.randint(bound - 1) + 1)
+        for i in range(self._edgeWeights.size):
+            self._edgeWeights[i] = self._edgeWeights[i] * 2 - 1
         return
 
     # Takes in an np array and multiplies by all edge weights using dot product
@@ -46,6 +50,10 @@ class Neuron:
     # returns the activation function used for these edgeweights
     def getActivationFunction(self):
         return self._activationFunction
+
+    # sets the activation function used for this node
+    def setActivationFunction(self, func):
+        self._activationFunction = func
 
     # Returns the size of these edgeweights
     def getSize(self):

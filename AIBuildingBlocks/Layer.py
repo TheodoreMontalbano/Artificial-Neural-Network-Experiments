@@ -23,6 +23,12 @@ class Layer:
     def getActivationFunction(self):
         return self._activationFunction
 
+    # Sets the activation function this layer uses
+    def setActivationFunction(self, func):
+        self._activationFunction = func
+        for i in self._nodes:
+            i.setActivationFunction(func)
+
     # dot products the incoming vector against each of our node's edge weights
     # returns an np array of the products
     def process(self, incomingVector):
@@ -63,4 +69,4 @@ class Layer:
 
     # Appends a neuron to this layer
     def appendNeuron(self):
-        self._nodes.insert(self.getSize() - 1, Neuron.Neuron(self._activationFunction, self._node[0].getSize()))
+        self._nodes.insert(self.getSize() - 1, Neuron.Neuron(self._activationFunction, self._nodes[0].getSize()))
