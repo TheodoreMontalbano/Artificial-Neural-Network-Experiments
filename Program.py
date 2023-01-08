@@ -45,29 +45,41 @@ def loadAI(filePath, nNPlayer):
             nodeIndex = int(fileContents[i][9:-2])
         elif fileContents[i][8:19] == "EdgeWeight":
             edgeIndex = int(fileContents[i][21:fileContents[i].index(":")])
-            nNPlayer.setEdgeWeight(layerIndex, nodeIndex, edgeIndex
+            toReturn.setEdgeWeight(layerIndex, nodeIndex, edgeIndex
                                    , float64(fileContents[i][fileContents[i].index(": "):-1]))
         elif fileContents[i][4:22] == "ActivationFunction":
-            nNPlayer.setActivationFunction(layerIndex, eval(fileContents[i][fileContents[i].index(": ") + 1:-1]))
+            toReturn.setActivationFunction(layerIndex, eval(fileContents[i][fileContents[i].index(": ") + 2:-1]))
     return toReturn
 
 
 def trainAI(nNPlayer, learningAlgorithm):
-    learnState = learningAlgorithm(nNPlayer)
+    genSize = 1000
+    layerBound = 3
+    nodeBound = 30
+    killPerGen = 333
+    mutationChance = [1, 2]
+    showPerGen = 10
+    crossOverAlgorithm = "Uniform"
+    useLaunchPad = True
+    learnState = learningAlgorithm(nNPlayer, genSize, layerBound, nodeBound, killPerGen, mutationChance, showPerGen
+                                   , crossOverAlgorithm, useLaunchPad)
     while True:
         choice = input("Choose an option \n "
                        "1. Go to next gen \n "
                        "2. Go forward n generations \n "
-                       "3. Save an AI from the current generation \n"
-                       "4. Have a show match between two AI in the current generation \n")
+                       "3. Repeat generations until end condition is reached \n"
+                       "4. Save an AI from the current generation \n"
+                       "5. Have a show match between two AI in the current generation \n")
         if int(choice) == 1:
             learnState.nextGen()
         elif int(choice) == 2:
             learnState.nextNGens(int(input("How many generation should be done ")))
         elif int(choice) == 3:
+            learnState.repeatUntilEndCondition()
+        elif int(choice) == 4:
             learnState.saveAI(input("What is the name of the AI to save "))
             print("Saved!")
-        elif int(choice) == 4:
+        elif int(choice) == 5:
             learnState.showMatch(input("What is the name of the AI for playerOne ")
                                  , input("What is the name of the AI for playerTwo "))
         else:

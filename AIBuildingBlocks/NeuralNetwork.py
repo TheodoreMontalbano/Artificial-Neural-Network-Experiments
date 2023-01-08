@@ -46,7 +46,7 @@ class NeuralNetwork:
             self._shape.insert(index, nodeNumber)
         else:
             self._layers.insert(index - 1, Layer.Layer(nodeNumber, self._shape[index - 1], activationFunction))
-            size = self._layers[index].getSize()
+            size = self._shape[index - 1]
             if nodeNumber > size:
                 for i in range(nodeNumber - size):
                     self._layers[index].addEdgeWeight(random.random())

@@ -1,8 +1,9 @@
 from Math import MathFunctions
-import numpy as np
 from GameInterfaces import INNPlayer
 from AIBuildingBlocks import NeuralNetwork
 from Games import ConnectFour
+from Player import MockPlayer
+from random import randint
 
 
 class ConnectFourNN(INNPlayer.INNPlayer):
@@ -13,7 +14,7 @@ class ConnectFourNN(INNPlayer.INNPlayer):
     _outputLayer = 1
 
     def __init__(self, name, shape):
-        self._outputFunction = ConnectFourNN.ConnectFourOutputLayer
+        self._outputFunction = MathFunctions.ConnectFourOutputLayerVOne
         length = len(shape)
         if shape[length - 1] == 1:
             activationFunctions = [None for i in range(length)]
@@ -29,75 +30,68 @@ class ConnectFourNN(INNPlayer.INNPlayer):
         else:
             self._brain.addLayer(self._outputFunction, self._outputLayer)
 
-    # sets edgeweight k at node j at layer i to newVal
-    # i should never be 0 because input layer does not have edgeweights
-    def setEdgeWeight(self, i, j, k, newVal):
-        self._brain.editEdgeWeight(i, j, k, newVal)
-
-    # Returns edgeweight k at node j at layer i
-    # i should never be 0 because input layer does not have edgeweights
-    def getEdgeWeight(self, i, j, k):
-        return self._brain.getEdgeWeight(i, j, k)
-
-    # Returns the name of this AI
-    def getName(self):
-        return self._name
-
-    # deletes neuron j at layer i - 1
-    def deleteNeuron(self, i, j):
-        self._brain.deleteNeuron(i, j)
-
-    # adds a neuron at layer i
-    def addNeuron(self, i):
-        self._brain.addNeuron(i)
-
-    # returns the value of this Ai's shape at the index
-    def getShapeAtIndex(self, index):
-        return self._brain.getShapeAtIndex(index)
-
-    # returns the size of this neural network. -> How many layers
-    def getSize(self):
-        return self._brain.getSize()
+    # region Implemented methods
 
     # Returns the game that this NN is meant to be trained on
     @staticmethod
     def getGame():
         return ConnectFour.ConnectFour
 
-    # Function used as the activation function for the output Layer of the connect Four game
-    @staticmethod
-    def ConnectFourOutputLayer(x):
-        return np.floor(MathFunctions.aSigmoid(x, 7))
-
-    # add a layer at the given layer
-    def addLayerAtIndex(self, index, activationFunction=None, nodeNumber=1):
-        self._brain.addLayerAtIndex(index, activationFunction, nodeNumber)
-
-    # deletes the layer at the given index
-    def deleteLayerAtIndex(self, index):
-        self._brain.deleteLayerAtIndex(index)
-
     # This player makes a move
     def makeMove(self, state):
-        return self._brain.processVector(state)
-
-    # This is a robot so...
-    def isRobot(self):
-        return True
-
-    # Returns the shape of NN
-    def getShape(self):
-        return self._brain.getShape()
+        # This logic makes it so red is always "good", black always "bad"
+        temp = []
+        if not ConnectFourNN._isPlayerOne(state):
+            temp = ConnectFourNN._translateState(state)
+        else:
+            temp = state
+        return self._brain.processVector(temp)
 
     # Returns the name of the game
     @staticmethod
     def getGameName():
         return "ConnectFour"
 
-    # The activation function at layer i
-    def getActivationFunction(self, i):
-        return self._brain.getActivationFunction(i)
+    # Returns players to Launch
+    @staticmethod
+    def getLaunchPadPlayers():
+        players = []
+        for i in range(7):
+            players.append(MockPlayer.MockPlayer(i, lambda state: i))
+            players.append(MockPlayer.MockPlayer(i, lambda state: (i + int(ConnectFourNN._sumMoves(state) / 2)) % 7))
+            players.append(MockPlayer.MockPlayer(i, lambda state: (i - int(ConnectFourNN._sumMoves(state) / 2)) % 7))
+        players.append(MockPlayer.MockPlayer(i, lambda state: randint(0, 6)))
+        return players
 
-    # sets the activation function at layer i
-    def setActivationFunction(self, i, func):
-        self._brain.setActivationFunction(i, func)
+    # endregion
+
+    # region Extra special handling methods
+
+    # returns whether we are playerOne or not
+    @staticmethod
+    def _isPlayerOne(state):
+        boardSum = ConnectFourNN._sumMoves(state)
+        if boardSum % 2 == 0:
+            return True
+        else:
+            return False
+
+    # Sums the total number of moves made
+    @staticmethod
+    def _sumMoves(state):
+        boardSum = 0
+        for i in state:
+            if not i == 0:
+                boardSum = boardSum + 1
+        return boardSum
+
+    # translates the state, so that it looks like all black pieces are red and vice versa
+    # In this case we map 0 -> 0, 1 -> 2, 2 -> 1 with the polynomial f(x) = -1.5x^2+3.5x
+    @staticmethod
+    def _translateState(state):
+        temp = [0 for i in range(42)]
+        for i in range(len(state)):
+            temp[i] = -1.5 * state[i] * state[i] + 3.5 * state[i]
+        return temp
+
+    # endregion

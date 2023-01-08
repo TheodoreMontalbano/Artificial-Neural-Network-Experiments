@@ -21,7 +21,7 @@ def selectLeftSkewRandomly(numToSelect, popSize):
             selected.append(i)
             numToSelect = numToSelect - 1
         elif numToSelect > 0:
-            save = random.randint(0, 1)
+            save = random.randint(0, 10)
             if save:
                 selected.append(i)
                 numToSelect = numToSelect - 1
@@ -41,7 +41,7 @@ def selectRightSkewRandomly(numToSelect, popSize):
             selected.append(popSize - i - 1)
             numToSelect = numToSelect - 1
         elif numToSelect > 0:
-            save = random.randint(0, 1)
+            save = random.randint(0, 10)
             if save:
                 selected.append(popSize - i - 1)
                 numToSelect = numToSelect - 1
@@ -50,3 +50,13 @@ def selectRightSkewRandomly(numToSelect, popSize):
         else:
             unselected.append(popSize - i - 1)
     return [selected, unselected]
+
+
+# VOne of ConnectFourOutputLayer
+def ConnectFourOutputLayerVOne(x):
+    return np.floor(aSigmoid(x, 7))
+
+
+# VTwo ConnectFour OutputLayerVTwo
+def ConnectFourOutputLayerVTwo(x):
+    return max(min(x, 6), 0)
