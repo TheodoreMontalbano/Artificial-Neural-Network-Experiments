@@ -146,13 +146,19 @@ class GeneticAlgorithm:
         playerOne = None
         playerTwo = None
         for i in range(self._genSize):
-            for j in range(i + 1, self._genSize):
+            # TODO if this works calculate sample size based on pop
+            sample = random.sample([k for k in range(self._genSize)], 100)
+            # TODO test for j in range(i + 1, self._genSize):
+            for j in sample:
                 playerOne = self._currAI[i]
                 playerTwo = self._currAI[j]
                 gameOne = self._game(playerOne, playerTwo)
                 gameTwo = self._game(playerTwo, playerOne)
-                self.scoreAI(playerTwo, playerOne, gameTwo.playGame())
-                self.scoreAI(playerOne, playerTwo, gameOne.playGame())
+                # TODO testing random selection of AI
+                self.scoreAI(None, playerOne, gameTwo.playGame())
+                self.scoreAI(playerOne, None, gameOne.playGame())
+                # self.scoreAI(playerTwo, playerOne, gameTwo.playGame())
+                # self.scoreAI(playerOne, playerTwo, gameOne.playGame())
 
     # Assesses Fitness Of AI using the launch pad players
     def assessFitnessWithLaunchPad(self):
@@ -288,12 +294,12 @@ class GeneticAlgorithm:
                     # Add a neuron
                     childNN.addNeuron(index)
             # Add or delete a random layer (not input or output)
-            # TODO this is bugged
             else:
                 randNum = random.randint(1, childNN.getSize() - 2)
                 if mutationType <= 95 or childNN.getSize() < 3:
                     # Add a layer randomly
                     childNN.addLayerAtIndex(randNum, None, random.randint(1, self._nodeBound))
+                # TODO this is bugged
             #    else:
             #        # Remove a layer randomly
             #        childNN.deleteLayerAtIndex(randNum)
