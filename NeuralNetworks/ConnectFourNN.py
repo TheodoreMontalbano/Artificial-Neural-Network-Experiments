@@ -8,7 +8,7 @@ from random import randint
 
 class ConnectFourNN(INNPlayer.INNPlayer):
     _brain = None
-    _inputLayer = 42
+    _inputLayer = 84
     _name = None
     _outputFunction = None
     _outputLayer = 1
@@ -42,9 +42,9 @@ class ConnectFourNN(INNPlayer.INNPlayer):
         # This logic makes it so red is always "good", black always "bad"
         temp = []
         if not ConnectFourNN._isPlayerOne(state):
-            temp = ConnectFourNN._translateState(state)
+            temp = ConnectFourNN._translateState(state, True)
         else:
-            temp = state
+            temp = ConnectFourNN._translateState(state, False)
         return self._brain.processVector(temp)
 
     # Returns the name of the game
@@ -60,7 +60,7 @@ class ConnectFourNN(INNPlayer.INNPlayer):
             players.append(MockPlayer.MockPlayer(i, lambda state: i))
             players.append(MockPlayer.MockPlayer(i, lambda state: (i + int(ConnectFourNN._sumMoves(state) / 2)) % 7))
             players.append(MockPlayer.MockPlayer(i, lambda state: (i - int(ConnectFourNN._sumMoves(state) / 2)) % 7))
-        players.append(MockPlayer.MockPlayer(i, lambda state: randint(0, 6)))
+        players.append(MockPlayer.MockPlayer(0, lambda state: randint(0, 6)))
         return players
 
     # endregion
@@ -85,13 +85,22 @@ class ConnectFourNN(INNPlayer.INNPlayer):
                 boardSum = boardSum + 1
         return boardSum
 
-    # translates the state, so that it looks like all black pieces are red and vice versa
-    # In this case we map 0 -> 0, 1 -> 2, 2 -> 1 with the polynomial f(x) = -1.5x^2+3.5x
+    # translates the state, so that 0 -> 41 holds the positions of our pieces
+    # and 42 -> 83 hold the position of our opponents pieces
     @staticmethod
-    def _translateState(state):
-        temp = [0 for i in range(42)]
+    def _translateState(state, switchColors):
+        temp = [0 for i in range(84)]
+        # First Change state into a proper format for temp
         for i in range(len(state)):
-            temp[i] = -1.5 * state[i] * state[i] + 3.5 * state[i]
+            if state[i] == 1:
+                temp[i] = 1
+            elif state[i] == 2:
+                temp[i + 42] = 1
+        if switchColors:
+            for i in range(len(state)):
+                currVal = temp[i]
+                temp[i] = temp[i + 42]
+                temp[i + 42] = currVal
         return temp
 
     # endregion

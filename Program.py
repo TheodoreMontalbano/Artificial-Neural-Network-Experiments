@@ -57,8 +57,8 @@ def trainAI(nNPlayer, learningAlgorithm):
     layerBound = 3
     nodeBound = 30
     killPerGen = 333
-    mutationChance = [1, 2]
-    showPerGen = 10
+    mutationChance = [2, 3]
+    showPerGen = 15
     crossOverAlgorithm = "Uniform"
     useLaunchPad = True
     learnState = learningAlgorithm(nNPlayer, genSize, layerBound, nodeBound, killPerGen, mutationChance, showPerGen

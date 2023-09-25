@@ -1,4 +1,7 @@
-class IArrayGame:
+from GameInterfaces import IArrayGame
+
+
+class TicTacToe(IArrayGame.IArrayGame):
     # Current state of the game
     state = None
     players = None

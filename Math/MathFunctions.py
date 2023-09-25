@@ -33,7 +33,7 @@ def selectLeftSkewRandomly(numToSelect, popSize):
 
 
 # selects num randomly with right skew from pop
-def selectRightSkewRandomly(numToSelect, popSize):
+def selectRightSkewRandomly(numToSelect: int, popSize: int):
     selected = []
     unselected = []
     for i in range(popSize):

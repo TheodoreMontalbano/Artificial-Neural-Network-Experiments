@@ -1,5 +1,6 @@
 import random
 from AIBuildingBlocks import NeuralNetwork, Neuron
+from GameInterfaces import IArrayGame, INNPlayer
 from numpy import floor
 from copy import deepcopy
 from Math import MathFunctions
@@ -8,37 +9,37 @@ from math import sqrt
 
 class GeneticAlgorithm:
     # curr Id of last AI
-    _id = 0
+    _id: int = 0
     # List of currAI
     _currAI = None
     # Tracker of the positions of All AI with certain ID
     _aiDict = None
     # Size of population
-    _genSize = None
+    _genSize: int = None
     # game the AIs play
-    _game = None
+    _game: IArrayGame = None
     # List of fitness of all AI
     _fitnessTracker = None
     # TODO Make this kill percent??
-    _killPerGen = None
+    _killPerGen: int = None
     # 2 value array symbolizing wanted chances of mutation arr[0]/arr[1]
     _mutationChance = None
     # We show the topShowPerGenAI every Gen
     _showPerGen = None
     # The current Generation
-    _genCount = 0
+    _genCount: int = 0
     # The neural network game player class
-    _nNPlayer = None
+    _nNPlayer: INNPlayer = None
     # The max amount of layers to generate
-    _layerBound = None
+    _layerBound: int = None
     # The algorithm to perform crossover with
-    _crossoverAlgorithm = None
+    _crossoverAlgorithm: str = None
     # Whether to use the Launchpad players or not
-    _useLaunchPad = None
+    _useLaunchPad: bool = False
     # End evolution
-    _endEvolution = False
+    _endEvolution: bool = False
     # Stagnated evolution Count
-    _stagnateEvolCount = 0
+    _stagnateEvolCount: int = 0
 
     # nNPlayer: The type of NN player to train should be an INNPlayer
     # genSize: How many AI to have in each generation
@@ -48,7 +49,8 @@ class GeneticAlgorithm:
     # mutationChance: Fraction of how likely a mutation is to occur
     # showPerGen: amount of top AI to show per gen
     # crossoverAlgorithm: the algorithm used to apply crossover
-    def __init__(self, nNPlayer, genSize=100, layerBound=3, nodeBound=50, killPerGen=33, mutationChance=[1, 10]
+    def __init__(self, nNPlayer: INNPlayer, genSize: int = 100, layerBound=3, nodeBound=50, killPerGen=33,
+                 mutationChance=[1, 10]
                  , showPerGen=10, crossoverAlgorithm="Uniform", useLaunchPad=False):
         self._useLaunchPad = useLaunchPad
         self._mutationChance = mutationChance
@@ -64,7 +66,8 @@ class GeneticAlgorithm:
         for i in range(genSize):
             self._aiDict[i + 1] = i
         if killPerGen > genSize:
-            killPerGen = floor(genSize * .33)
+            killPerGen = int(floor(genSize * .33))
+            print("ERROR: Kill per gen is greater than Gen size. Making Kill per gen 1/3 Gen Size")
         self._killPerGen = killPerGen
         self._showPerGen = showPerGen
 
